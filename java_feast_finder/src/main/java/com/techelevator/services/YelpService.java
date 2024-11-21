@@ -18,9 +18,12 @@ import com.techelevator.model.Eatery;
 
 @Component
 public class YelpService {
+
     @Value("${yelp.api.key}")
     private String apiKey;
+
     private final int limit = 50;
+
     @Value("${yelp.api.url}")
     private String apiUrl;
 

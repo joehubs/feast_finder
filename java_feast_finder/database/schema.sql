@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS eatery_vote;
 DROP TABLE IF EXISTS eatery_voter;
+DROP TABLE IF EXISTS yelp;
+DROP TABLE IF EXISTS eatery_yelp;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -32,18 +34,18 @@ CREATE TABLE user_group (
 
 CREATE TABLE eatery (
 	eatery_id SERIAL,
-	eatery_name varchar(50) NOT NULL,
-	image_url varchar(200),
-	eatery_address varchar(200),
-	category varchar(50),
-	website varchar(200),
-	open_time varchar(50),
-	close_time varchar(50),
+	eatery_name varchar NOT NULL,
+	image_url varchar,
+	eatery_address varchar,
+	category varchar,
+	website varchar,
+	open_time varchar,
+	close_time varchar,
 	has_takeout boolean,
 	rating int,
-	phone varchar(50),
-	price varchar(50),
-	city varchar(50),
+	phone varchar,
+	price varchar,
+	city varchar,
 	CONSTRAINT PK_eatery PRIMARY KEY (eatery_id)
 );
 
@@ -87,5 +89,12 @@ CREATE TABLE eatery_vote (
 	CONSTRAINT FK_vote_id FOREIGN KEY (vote_id) REFERENCES vote(vote_id)
 );
 
+CREATE TABLE yelp (
+    yelp_id SERIAL,
+    search_count INT DEFAULT 0,
+    search_term VARCHAR(255) NOT NULL,
+	eateries JSONB,
+    CONSTRAINT PK_yelp PRIMARY KEY (yelp_id)
+);
 
 COMMIT TRANSACTION;

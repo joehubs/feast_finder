@@ -72,9 +72,10 @@ public class JdbcEateryDao implements EateryDao {
                     eatery.getPhone(), 
                     eatery.getPrice(),
                     eatery.getCity());
-
-            sql = "INSERT INTO eatery_vote(eatery_id, vote_id) VALUES (?,?);";
-            template.update(sql, id, voteId);
+            if(voteId != -1) {
+                sql = "INSERT INTO eatery_vote(eatery_id, vote_id) VALUES (?,?);";
+                template.update(sql, id, voteId);
+            }
             return getEatery(id);
         } catch (CannotGetJdbcConnectionException e) {
             System.out.println("Problem connecting");

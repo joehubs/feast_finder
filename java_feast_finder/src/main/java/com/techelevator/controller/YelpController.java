@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techelevator.dao.dao.EateryDao;
+import com.techelevator.dao.dao.YelpDao;
+import com.techelevator.dao.jdbcdao.JdbcEateryDao;
 import com.techelevator.model.Eatery;
 import com.techelevator.services.YelpService;
 
@@ -21,9 +24,24 @@ import com.techelevator.services.YelpService;
 public class YelpController {
     @Autowired
     private YelpService yelpService;
-    
-    @RequestMapping(path = "/restaurants/{data}", method= RequestMethod.GET)
+
+    @Autowired
+    private YelpDao yelpDao;
+
+    // **************************************************************************************************************
+    // this is getting called twice in a row for some reason
+    @RequestMapping(path = "/restaurants/{data}", method = RequestMethod.GET)
     public List<Eatery> getEateryList(@Valid @PathVariable String data) {
-        return yelpService.getEateries(data);
+        return findEateries(data);
+    }
+    // **************************************************************************************************************
+
+    @Autowired
+    private EateryDao eateryDao;
+
+    private List<Eatery> findEateries(String data) {
+        if (!yelpDao.checkYelp(data))
+            yelpDao.addYelp(data, yelpService.getEateries(data));
+        return yelpDao.getEateries(data);
     }
 }
